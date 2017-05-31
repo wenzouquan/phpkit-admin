@@ -1,0 +1,176 @@
+<script src="http://ace.jeka.by/assets/js/jquery.dataTables.min.js"></script>
+<script src="http://ace.jeka.by/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="http://ace.jeka.by/assets/js/dataTables.buttons.min.js"></script>
+<script src="http://ace.jeka.by/assets/js/buttons.colVis.min.js"></script>
+<script src="http://ace.jeka.by/assets/js/dataTables.select.min.js"></script>
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/"></a>
+            </li>
+            <li class="active">AddonAuthGroup列表</li>
+        </ul>
+    </div>
+    <div class="page-content">
+        <!-- /.ace-settings-container -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-header clearfix">
+                            <div class="pull-left">
+                                列表
+                            </div>
+                            <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>" style="margin-top:8px;margin-right:8px; " class="btn btn-primary btn-xs pull-right">
+                                <i class="fa fa-plus"></i> 添加记录
+                            </a>
+                            <div class="pull-right tableTools-container"></div>
+                        </div>
+                        <div>
+                            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                    <th></th>
+                                                                       <th>Id</th>
+                                                                        <th>权限组名</th>
+                                                                        <th>分类</th>
+                                                                         <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+jQuery(function($) {
+  //列表配置
+   var config = {
+   	    //字段绑定配置
+   		"columns": [{
+                    bSortable: false,
+                    data: 'Id',
+                    render: function(data, type, row, meta) {
+                        return '<label class="pos-rel"><input type="checkbox" name="ids[]" value="' + data + '" class="ace" /><span class="lbl"></span></label>'
+                    }
+                },
+                //列表绑定数据键名
+                 
+                {
+                    "data": "Id"
+                },
+                  
+                {
+                    "data": "Title"
+                },
+                  
+                {
+                    "data": "Cate"
+                },
+                                 {
+                    bSortable: false,
+                    data: 'Id',
+                    render: function(data, type, row, meta) {
+                        var html = $("#actBnt").html();
+                        var render = template.compile(html);
+                        var compiledRendered = render({
+                            Id: data
+                        });
+                        return compiledRendered;
+                    }
+                }
+            ],
+            //数据请求
+            "ajax": {
+                url: "<?php echo $this->url->get($this->dispatcher->getControllerName().'/search')?>",
+                data: function(d) {
+                    return $.extend({}, d, {
+                        'fromAjax': 1
+                    });
+                }
+            }
+            //更多配置，请参考jquery.dataTables 官网
+
+   };
+
+   //实例化
+   var myTable = phpkitApp.DataTable('dynamic-table',config);
+
+    //删一条数据
+    function deleteRow(ids) {
+        $.getJSON('<?php echo $this->url->get($this->dispatcher->getControllerName().'/delete')?>', {
+            ids: ids
+        }, function(data) {
+            if (data.error == 0) {
+                myTable.draw(false)
+            } else {
+                alert(data.msg);
+            }
+        })
+    }
+
+    $(document).on('click', ".delBnt", function() {
+        var r = confirm("确认删除吗？");
+        if (r) {
+            var id = $(this).attr('data-id');
+            deleteRow(id);
+        }
+    })
+})
+</script>
+<!-- 操作按钮 -->
+<script type="text/html" id="actBnt">
+    <div class="hidden-sm hidden-xs action-buttons">
+        <!-- <a class="blue" href="#">
+			<i class="ace-icon fa fa-search-plus bigger-130"></i>
+		</a> -->
+        <a class="green" href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={{Id}}">
+            <i class="ace-icon fa fa-pencil bigger-130"></i>
+        </a>
+        <a class="red delBnt" href="#this" data-id="{{Id}}">
+            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+        </a>
+    </div>
+    <div class="hidden-md hidden-lg">
+        <div class="inline pos-rel">
+            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                <!-- <li>
+				<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+					<span class="blue">
+						<i class="ace-icon fa fa-search-plus bigger-120"></i>
+					</span>
+				</a>
+			</li> -->
+                <li>
+                    <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={{Id}}" class="tooltip-success" data-rel="tooltip" title="Edit">
+                        <span class="green">
+						<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+					</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#this" " data-id="{{Id}} " class="tooltip-error delBnt " data-rel="tooltip " title="Delete ">
+					<span class="red ">
+						<i class="ace-icon fa fa-trash-o bigger-120 "></i>
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+</script>

@@ -1,0 +1,84 @@
+ <div class="main-content-inner">
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href=""></a>
+			</li>
+
+		    <li ><a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/index')?>">AddonAuthGroup列表</a></li>
+			<li class="active">添加</li>
+		</ul>
+	</div>
+
+	<div class="page-content">
+		<div class="panel-body">
+			<form id="myform" method="post" class="form-horizontal" action="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>">
+			
+			 	 
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">Id</label>
+						<div class="col-sm-7">
+							<input type="text" name="Id" value="<?php echo $data->Id?>" class="form-control" >
+						</div>
+					</div>
+					 
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">权限组名</label>
+						<div class="col-sm-7">
+							<input type="text" name="Title" value="<?php echo $data->Title?>" class="form-control" >
+						</div>
+					</div>
+					 
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">分类</label>
+						<div class="col-sm-7">
+							<input type="text" name="Cate" value="<?php echo $data->Cate?>" class="form-control" >
+						</div>
+					</div>
+				
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-7">
+					<button type="submit" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+ 
+$(function(){
+    $(".form-horizontal").bootstrapValidator({
+        message: '您填入的值不合法',
+        fields:{
+ 	
+ 	 			Id: {
+                message: 'Id',
+                validators: {
+                    notEmpty: {
+                        message: 'Id不能为空'
+                    },
+                }
+            }, 
+           
+ 	
+ 	 			Title: {
+                message: '权限组名',
+                validators: {
+                    notEmpty: {
+                        message: '权限组名不能为空'
+                    },
+                }
+            }, 
+           
+ 	
+ 	       
+        
+        }
+    });
+ 
+	});
+ </script> 
