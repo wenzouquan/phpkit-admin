@@ -1,10 +1,10 @@
 <?php
 
-class AddonAuthController extends \phpkit\core\BaseController {
+class AddonAuthUserRolesController extends \phpkit\core\BaseController {
 
 	public function initialize() {
 		parent::initialize();
-		$this->model = new AddonAuth();
+		$this->model = new AddonAuthUserRoles();
 		$this->view->modelPk = $this->model->getPk();
 	}
 
@@ -49,9 +49,7 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		$data = $res["list"];
 		//exit();
 		foreach ($data as $list) {
-			$values = $list->toArray();
-			$values['GroupName'] = $list->GroupName;
-			$lists[] = $values;
+			$lists[] = $list;
 		}
 		$data = array(
 			'recordsTotal' => $recordsTotal,
@@ -66,12 +64,13 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		$Id = $this->request->get("Id");
 		if (!empty($Id)) {
 			$model = $this->view->data = $this->model->load($Id);
+			$this->view->AuthIds = $model->AuthIds;
 		}
-		$this->view->GroupList = $this->model->GroupList;
 		if ($this->request->isPost()) {
 			if (empty($model)) {
 				$model = $this->model;
 			}
+			var_dump($this->request->getPost());
 			if ($model->save($this->request->getPost()) == false) {
 				$msg = '保存失败';
 				foreach ($model->getMessages() as $message) {
@@ -85,6 +84,10 @@ class AddonAuthController extends \phpkit\core\BaseController {
 			} else {
 				$this->jump("保存成功", $this->url->get($this->dispatcher->getControllerName() . '/add') . "?" . $this->view->modelPk . "=" . $Id);
 			}
+		} else {
+			//权限列表
+			$auth = new AddonAuth();
+			$this->view->authList = $auth->getAuthList();
 		}
 		$this->adminDisplay();
 

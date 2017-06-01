@@ -1,14 +1,18 @@
 <?php
 
-class AddonAuthController extends \phpkit\core\BaseController {
+class SystemStoreUserController extends \phpkit\core\BaseController {
 
 	public function initialize() {
 		parent::initialize();
-		$this->model = new AddonAuth();
+		$this->model = new SystemStoreUser();
 		$this->view->modelPk = $this->model->getPk();
 	}
 
 	public function indexAction() {
+		//array('in', '1,3,8');
+		//$data = $this->model->where('id in ({ids:array})')->bind(array('ids' => array('132', '131')))->select()->toArray();
+		//$data = $this->model->where(array('id' => 131))->select()->toArray();
+		//var_dump($data);
 		$this->adminDisplay();
 
 	}
@@ -47,17 +51,18 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		$recordsFiltered = $res['recordsFiltered'];
 		$recordsTotal = $res['recordsTotal'];
 		$data = $res["list"];
+
 		//exit();
+		$lists = array();
 		foreach ($data as $list) {
-			$values = $list->toArray();
-			$values['GroupName'] = $list->GroupName;
-			$lists[] = $values;
+			$list->pasttime = $list->pasttimeDate;
+			$lists[] = $list;
 		}
 		$data = array(
 			'recordsTotal' => $recordsTotal,
 			'draw' => intval($_GET['draw']),
 			'recordsFiltered' => $recordsFiltered,
-			'data' => (array) $lists,
+			'data' => $lists,
 		);
 		echo json_encode($data);
 	}
@@ -67,12 +72,19 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		if (!empty($Id)) {
 			$model = $this->view->data = $this->model->load($Id);
 		}
-		$this->view->GroupList = $this->model->GroupList;
+		$RolesModel = new AddonAuthUserRoles();
+		$this->view->Roles = $RolesModel->select()->toArray();
+		//var_dump($this->view->Roles);
 		if ($this->request->isPost()) {
 			if (empty($model)) {
 				$model = $this->model;
 			}
-			if ($model->save($this->request->getPost()) == false) {
+
+			$post = $this->request->getPost();
+			$post['password'] = md5($post['password']);
+			$post['pasttime'] = time();
+			$model->RoleId = $post['RoleId'];
+			if ($model->save($post) == false) {
 				$msg = '保存失败';
 				foreach ($model->getMessages() as $message) {
 					$messages[] = $message;
@@ -83,6 +95,7 @@ class AddonAuthController extends \phpkit\core\BaseController {
 				$this->jump($msg);
 
 			} else {
+
 				$this->jump("保存成功", $this->url->get($this->dispatcher->getControllerName() . '/add') . "?" . $this->view->modelPk . "=" . $Id);
 			}
 		}
@@ -102,4 +115,5 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		}
 		exit();
 	}
+
 }

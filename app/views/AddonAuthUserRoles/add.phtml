@@ -1,0 +1,93 @@
+ <div class="main-content-inner">
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href=""></a>
+			</li>
+
+		    <li ><a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/index')?>">AddonAuthUserRoles列表</a></li>
+			<li class="active">添加</li>
+		</ul>
+	</div>
+
+	<div class="page-content">
+		<div class="panel-body">
+			<form id="myform" method="post" class="form-horizontal" action="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>">
+			
+			 	 
+					<div class="form-group" style="display:none">
+						<label for="input-title"  class="col-sm-2 control-label">Id</label>
+						<div class="col-sm-7">
+							<input type="text" name="Id" value="<?php echo $data->Id?>" class="form-control" >
+						</div>
+					</div>
+					 
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">用户组</label>
+						<div class="col-sm-7">
+							<input type="text" name="RoleName" value="<?php echo $data->RoleName?>" class="form-control" >
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">权限</label>
+						<div class="col-sm-7">
+						<?php foreach($authList as $auth){?>
+							 <div class="rules">
+                                <label style="color:#0080FF">  <input type="checkbox" onclick="selectAll(this)"  autocomplete="off"><?php echo $auth['Title']?></label>
+                                <div class="clearfix">
+                                   <?php foreach($auth['scat'] as $value){?>
+                                    <div class="col-sm-3">
+                                      <span>
+                                       <label> <input  <?php echo (in_array($value['Id'], $AuthIds)?'checked':'')?> type="checkbox"  name="AuthIds[]" value="<?php echo $value['Id']?>" autocomplete="off"><?php echo $value['Title']?></label>
+                                      
+                                       </span>  
+                                     </div>
+                                      <?php }?> 
+                                </div>
+                              </div>
+                         <?php }?>
+						</div>
+
+					</div>
+
+
+				
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-7">
+					<button type="submit" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+ function selectAll(_this){
+ 	$(_this).parents(".rules").find("[name='AuthIds[]']").prop("checked",$(_this).prop('checked'));
+ }
+$(function(){
+    $(".form-horizontal").bootstrapValidator({
+        message: '您填入的值不合法',
+        fields:{
+ 	
+ 	
+ 	
+ 	 			RoleName: {
+                message: '用户组',
+                validators: {
+                    notEmpty: {
+                        message: '用户组不能为空'
+                    },
+                }
+            }, 
+           
+        
+        }
+    });
+ 
+	});
+ </script> 

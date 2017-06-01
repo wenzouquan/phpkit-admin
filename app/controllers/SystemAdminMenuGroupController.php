@@ -1,10 +1,10 @@
 <?php
 
-class AddonAuthController extends \phpkit\core\BaseController {
+class SystemAdminMenuGroupController extends \phpkit\core\BaseController {
 
 	public function initialize() {
 		parent::initialize();
-		$this->model = new AddonAuth();
+		$this->model = new SystemAdminMenuGroup();
 		$this->view->modelPk = $this->model->getPk();
 	}
 
@@ -48,10 +48,9 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		$recordsTotal = $res['recordsTotal'];
 		$data = $res["list"];
 		//exit();
+		$lists = array();
 		foreach ($data as $list) {
-			$values = $list->toArray();
-			$values['GroupName'] = $list->GroupName;
-			$lists[] = $values;
+			$lists[] = $list;
 		}
 		$data = array(
 			'recordsTotal' => $recordsTotal,
@@ -67,7 +66,6 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		if (!empty($Id)) {
 			$model = $this->view->data = $this->model->load($Id);
 		}
-		$this->view->GroupList = $this->model->GroupList;
 		if ($this->request->isPost()) {
 			if (empty($model)) {
 				$model = $this->model;

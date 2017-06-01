@@ -43,7 +43,7 @@ class AddonAuthGroupController extends \phpkit\core\BaseController {
 			$conditions .= " Title like '%$kw%'";
 		}
 
-		$res = $this->model->order($orderBy)->where($conditions)->limit("$pagesize,$offset")->get();
+		$res = $this->model->order($orderBy)->where($conditions)->limit("$pagesize,$offset")->select();
 		$recordsFiltered = $res['recordsFiltered'];
 		$recordsTotal = $res['recordsTotal'];
 		$data = $res["list"];
@@ -100,4 +100,3 @@ class AddonAuthGroupController extends \phpkit\core\BaseController {
 		exit();
 	}
 }
-

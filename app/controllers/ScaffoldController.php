@@ -52,50 +52,10 @@ class ScaffoldController extends \phpkit\core\BaseController {
 			$columnsList = $tableConfig['columnsList'];
 		}
 
-		$this->view->columns = $this->arrayeval($columnsList);
+		$this->view->columns = \phpkit\helper\arrayeval($columnsList);
 		$this->adminDisplay();
 	}
 
-/*******数组转字符***/
-	public function arrayeval($array, $level = 0) {
-
-		$space = '';
-
-		for ($i = 0; $i <= $level; $i++) {
-
-			$space .= "\t";
-
-		}
-
-		$evaluate = "Array\n$space(\n";
-
-		$comma = $space;
-
-		foreach ($array as $key => $val) {
-
-			$key = is_string($key) ? '\'' . addcslashes($key, '\'\\') . '\'' : $key;
-
-			$val = !is_array($val) && (!preg_match("/^\-?\d+$/", $val) || strlen($val) > 12) ? '\'' . addcslashes($val, '\'\\') . '\'' : $val;
-
-			if (is_array($val)) {
-
-				$evaluate .= "$comma$key => " . $this->arrayeval($val, $level + 1);
-
-			} else {
-
-				$evaluate .= "$comma$key => $val";
-
-			}
-
-			$comma = ",\n$space";
-
-		}
-
-		$evaluate .= "\n$space)";
-
-		return $evaluate;
-
-	}
 	public function run2Action() {
 		$config = new \phpkit\config\Config();
 		$post = $this->request->getPost();
@@ -106,6 +66,11 @@ class ScaffoldController extends \phpkit\core\BaseController {
 			$value_str = "'" . $value_str . "'";
 		}
 		eval("\$columnsList = " . $value_str . "; ");
+		$i = 1;
+		foreach ($columnsList as $key => $value) {
+			$columnsList[$i] = $value;
+			$i++;
+		}
 		$data['columnsList'] = $columnsList;
 		$data['modelPk'] = $post['modelPk'];
 		$config->save($name, $data);

@@ -1,10 +1,10 @@
 <?php
 
-class AddonAuthController extends \phpkit\core\BaseController {
+class SystemAdminMenuController extends \phpkit\core\BaseController {
 
 	public function initialize() {
 		parent::initialize();
-		$this->model = new AddonAuth();
+		$this->model = new SystemAdminMenu();
 		$this->view->modelPk = $this->model->getPk();
 	}
 
@@ -33,7 +33,7 @@ class AddonAuthController extends \phpkit\core\BaseController {
 			$orderBy = trim($orderBy, ",");
 
 		} else {
-			$orderBy = $this->view->modelPk . " desc"; //排序方式
+			$orderBy = "OrderBy"; //排序方式
 		}
 		//var_dump($this->request->getQuery());
 		//关键字查询
@@ -48,16 +48,17 @@ class AddonAuthController extends \phpkit\core\BaseController {
 		$recordsTotal = $res['recordsTotal'];
 		$data = $res["list"];
 		//exit();
+		$lists = array();
 		foreach ($data as $list) {
-			$values = $list->toArray();
-			$values['GroupName'] = $list->GroupName;
-			$lists[] = $values;
+			//var_dump($list->Pid);
+			$list->Pid = $list->GroupName;
+			$lists[] = $list;
 		}
 		$data = array(
 			'recordsTotal' => $recordsTotal,
 			'draw' => intval($_GET['draw']),
 			'recordsFiltered' => $recordsFiltered,
-			'data' => (array) $lists,
+			'data' => $lists,
 		);
 		echo json_encode($data);
 	}

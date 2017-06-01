@@ -10,7 +10,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="/"></a>
             </li>
-            <li class="active">AddonAuthGroup列表</li>
+            <li class="active">SystemStore列表</li>
         </ul>
     </div>
     <div class="page-content">
@@ -36,9 +36,13 @@
                                                                 <input type="checkbox" class="ace">
                                                                 <span class="lbl"></span>
                                                             </label></th>
-                                                                       <th>Id</th>
-                                                                        <th>权限组名</th>
-                                                                        <th>分类</th>
+                                                                       <th>商家Id</th>
+                                                                        <th>logo</th>
+                                                                        <th>商家名</th>
+                                                                        <th>录入时间</th>
+                                                                        <th></th>
+                                                                        <th>地址</th>
+                                                                        <th>域名</th>
                                                                          <th>操作</th>
                                     </tr>
                                 </thead>
@@ -64,7 +68,7 @@ jQuery(function($) {
    	    //字段绑定配置
    		"columns": [{
                     bSortable: false,
-                    data: 'Id',
+                    data: 'store_id',
                     render: function(data, type, row, meta) {
                         return '<label class="pos-rel"><input type="checkbox" name="ids[]" value="' + data + '" class="ace" /><span class="lbl"></span></label>'
                     }
@@ -72,19 +76,35 @@ jQuery(function($) {
                 //列表绑定数据键名
                  
                 {
-                    "data": "Id"
+                    "data": "store_id"
                 },
                   
                 {
-                    "data": "Title"
+                    "data": "logo"
                 },
                   
                 {
-                    "data": "Cate"
+                    "data": "store_name"
+                },
+                  
+                {
+                    "data": "created"
+                },
+                  
+                {
+                    "data": "photo"
+                },
+                  
+                {
+                    "data": "address"
+                },
+                  
+                {
+                    "data": "domain"
                 },
                                  {
                     bSortable: false,
-                    data: 'Id',
+                    data: 'store_id',
                     render: function(data, type, row, meta) {
                         var html = $("#actBnt").html();
                         var render = template.compile(html);
