@@ -2,6 +2,8 @@
 class SystemStoreUser extends \phpkit\core\BaseModel {
 	protected $pasttimeDate;
 	protected $RoleId;
+	public $callbackForRole; //保存成功之后保存权限
+
 	public function initialize() {
 		parent::initialize();
 	}
@@ -20,29 +22,31 @@ class SystemStoreUser extends \phpkit\core\BaseModel {
 
 	public function afterSave() {
 		parent::afterSave();
-		echo "afterSave";
-		exit();
+		//保存权限
+		$data = $this->callbackForRole->fire();
 	}
 
 	public function setRoleId($RoleId) {
-		echo $RoleId;
-		if (empty($this->id)) {
-			return;
+		$this->callbackForRole = new \phpkit\callback\Callback();
+		if (!empty($this->id)) {
+			$this->callbackForRole->fire();
 		}
-		$model = new AddonAuthUser();
-		$model->UserId = $this->id;
-		$model->RoleId = $RoleId;
-		$bool = $model->save();
-		if ($bool == false) {
-			foreach ($model->getMessages() as $message) {
-				$messages[] = $message;
+		$_this = $this;
+		$this->callbackForRole->add(function ($params) use ($_this, $RoleId) {
+			$model = new AddonAuthUser();
+			$model->UserId = $_this->id;
+			$model->RoleId = $RoleId;
+			$bool = $model->save();
+			if ($bool == false) {
+				foreach ($model->getMessages() as $message) {
+					$messages[] = $message;
+				}
+				if (is_array($messages)) {
+					$msg = implode(",", $messages);
+				}
+				return $msg;
 			}
-			if (is_array($messages)) {
-				$msg = implode(",", $messages);
-			}
-			$this->setMessages($messages);
-		}
-
+		});
 	}
 
 }

@@ -35,7 +35,7 @@
 						<div class="col-sm-7">
 						<?php foreach($authList as $auth){?>
 							 <div class="rules">
-                                <label style="color:#0080FF">  <input type="checkbox" onclick="selectAll(this)"  autocomplete="off"><?php echo $auth['Title']?></label>
+                                <label style="color:#0080FF">  <input class="selectAll" type="checkbox" onclick="selectAll(this)"  autocomplete="off"><?php echo $auth['Title']?></label>
                                 <div class="clearfix">
                                    <?php foreach($auth['scat'] as $value){?>
                                     <div class="col-sm-3">
@@ -70,6 +70,13 @@
  	$(_this).parents(".rules").find("[name='AuthIds[]']").prop("checked",$(_this).prop('checked'));
  }
 $(function(){
+    $(".rules").each(function(){
+    	var l = $(this).find("[name='AuthIds[]']:checked").length;
+    	if(l>0){
+    		$(this).find(".selectAll").prop("checked",true);
+    	}
+    })
+
     $(".form-horizontal").bootstrapValidator({
         message: '您填入的值不合法',
         fields:{

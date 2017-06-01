@@ -69,6 +69,9 @@ class SystemStoreUserController extends \phpkit\core\BaseController {
 
 	public function addAction() {
 		$Id = $this->request->get("Id");
+		if ($this->request->isPost()) {
+			$Id = $this->request->get("id");
+		}
 		if (!empty($Id)) {
 			$model = $this->view->data = $this->model->load($Id);
 		}
@@ -79,7 +82,6 @@ class SystemStoreUserController extends \phpkit\core\BaseController {
 			if (empty($model)) {
 				$model = $this->model;
 			}
-
 			$post = $this->request->getPost();
 			$post['password'] = md5($post['password']);
 			$post['pasttime'] = time();
@@ -96,7 +98,7 @@ class SystemStoreUserController extends \phpkit\core\BaseController {
 
 			} else {
 
-				$this->jump("保存成功", $this->url->get($this->dispatcher->getControllerName() . '/add') . "?" . $this->view->modelPk . "=" . $Id);
+				$this->jump("保存成功", $this->url->get($this->dispatcher->getControllerName() . '/add') . "?Id=" . $Id);
 			}
 		}
 		$this->adminDisplay();
