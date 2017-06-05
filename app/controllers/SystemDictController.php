@@ -1,10 +1,10 @@
 <?php
 
-class SystemStoreController extends AdminController {
+class SystemDictController extends AdminController {
 
 	public function initialize() {
 		parent::initialize();
-		$this->model = new SystemStore();
+		$this->model = new SystemDict();
 		$this->view->modelPk = $this->model->getPk();
 	}
 
@@ -33,7 +33,7 @@ class SystemStoreController extends AdminController {
 			$orderBy = trim($orderBy, ",");
 
 		} else {
-			$orderBy = $this->view->modelPk . " desc"; //排序方式
+			$orderBy = "addtime desc"; //排序方式
 		}
 		//var_dump($this->request->getQuery());
 		//关键字查询
@@ -62,15 +62,23 @@ class SystemStoreController extends AdminController {
 	}
 
 	public function addAction() {
-		$Id = $this->request->get("Id");
-		if (!empty($Id)) {
-			$model = $this->view->data = $this->model->load($Id);
+		$name = $this->request->get("name");
+		if (!empty($name)) {
+			$model = $this->view->data = $this->model->load($name);
+			$this->view->value = \phpkit\helper\arrayeval(json_decode($this->view->data->value, ture));
 		}
 		if ($this->request->isPost()) {
 			if (empty($model)) {
 				$model = $this->model;
 			}
-			if ($model->save($this->request->getPost()) == false) {
+			$data = $this->request->getPost();
+			$value_str = str_replace("Array", "array", stripslashes(htmlspecialchars_decode(trim($_POST['value']))));
+			if (strpos($value_str, "array") !== 0) {
+				$value_str = "'" . $value_str . "'";
+			}
+			eval("\$value = " . $value_str . "; ");
+			$data['value'] = json_encode($value);
+			if ($model->save($data) == false) {
 				$msg = '保存失败';
 				foreach ($model->getMessages() as $message) {
 					$messages[] = $message;
@@ -81,7 +89,7 @@ class SystemStoreController extends AdminController {
 				$this->jump($msg);
 
 			} else {
-				$this->jump("保存成功", $this->url->get($this->dispatcher->getControllerName() . '/add') . "?" . $this->view->modelPk . "=" . $Id);
+				$this->jump("保存成功", $this->url->get('system-dict/add') . "?name=" . $name);
 			}
 		}
 		$this->adminDisplay();

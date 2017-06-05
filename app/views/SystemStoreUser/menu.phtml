@@ -1,0 +1,80 @@
+ <div class="main-content-inner">
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href=""></a>
+			</li>
+
+		    <li ><a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/index')?>">后台用户</a></li>
+			<li class="active">添加</li>
+		</ul>
+	</div>
+
+	<div class="page-content">
+		<div class="panel-body">
+			<form id="myform" method="post" class="form-horizontal" action="<?php echo $this->url->get('system-store-user/menu')?>">
+			
+			 	 
+					<div class="form-group" style="display:none">
+						<label for="input-title"  class="col-sm-2 control-label">Id</label>
+						<div class="col-sm-7">
+							<input type="text" readonly name="id" value="<?php echo $data->id?>" class="form-control" >
+						</div>
+					</div>
+					 
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">用户</label>
+						<div class="col-sm-7">
+							<input type="text" readonly name="user_name" value="<?php echo $data->user_name?>" class="form-control" >
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="input-title"  class="col-sm-2 control-label">权限</label>
+						<div class="col-sm-7">
+						<?php foreach($menuList as $menu){?>
+							 <div class="rules">
+                                <label style="color:#0080FF">  <input class="selectAll" type="checkbox" onclick="selectAll(this)"  autocomplete="off"><?php echo $menu['Name']?></label>
+                                <div class="clearfix">
+                                   <?php foreach($menu['scat'] as $value){?>
+                                    <div class="col-sm-3">
+                                      <span>
+                                       <label> <input  <?php echo (in_array($value['Id'], $menuIds)?'checked':'')?> type="checkbox"  name="memuIds[]" value="<?php echo $value['Id']?>" autocomplete="off"><?php echo $value['Name']?></label>
+                                      
+                                       </span>  
+                                     </div>
+                                      <?php }?> 
+                                </div>
+                              </div>
+                         <?php }?>
+						</div>
+
+					</div>
+
+
+				
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-7">
+					<button type="submit" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+ function selectAll(_this){
+ 	$(_this).parents(".rules").find("[name='memuIds[]']").prop("checked",$(_this).prop('checked'));
+ }
+$(function(){
+    $(".rules").each(function(){
+    	var l = $(this).find("[name='memuIds[]']:checked").length;
+    	if(l>0){
+    		$(this).find(".selectAll").prop("checked",true);
+    	}
+    })
+});
+ </script> 

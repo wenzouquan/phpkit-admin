@@ -1,6 +1,6 @@
 <?php
 
-class AddonAuthGroupController extends \phpkit\core\BaseController {
+class AddonAuthGroupController extends AdminController {
 
 	public function initialize() {
 		parent::initialize();
@@ -90,7 +90,7 @@ class AddonAuthGroupController extends \phpkit\core\BaseController {
 	public function deleteAction() {
 		$ids = (array) $this->request->getQuery("ids");
 		foreach ($ids as $key => $id) {
-			$r = $this->model->deleteByFind($id);
+			$r = $this->model->remove($id);
 		}
 		if ($r) {
 			echo json_encode(array('error' => 0, 'msg' => '删除成功'));

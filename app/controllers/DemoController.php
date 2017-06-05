@@ -98,6 +98,19 @@ class DemoController extends Controller {
 		$backendView->display($content);
 	}
 
+	//通用后台 , 基于 boostrap , ace , Phalcon
+	public function dictAction() {
+		$params = array(
+			'menus' => array(), //菜单
+			'active' => '', //当前菜单
+		);
+		$dict = new \phpkit\dict\Dict();
+		//$data = $dict->get("apps");
+		//$data = $dict->set("test", $params);
+		$data = $dict->delete('test');
+		var_dump($data);
+	}
+
 	public function registerAction() {
 
 		$user = new Users();

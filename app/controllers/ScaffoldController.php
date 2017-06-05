@@ -1,6 +1,6 @@
 <?php
 
-class ScaffoldController extends \phpkit\core\BaseController {
+class ScaffoldController extends AdminController {
 	public function initialize() {
 		parent::initialize();
 	}

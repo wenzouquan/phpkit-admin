@@ -1,6 +1,6 @@
 <?php
 
-class SystemStoreUserController extends \phpkit\core\BaseController {
+class SystemStoreUserController extends AdminController {
 
 	public function initialize() {
 		parent::initialize();
@@ -108,7 +108,7 @@ class SystemStoreUserController extends \phpkit\core\BaseController {
 	public function deleteAction() {
 		$ids = (array) $this->request->getQuery("ids");
 		foreach ($ids as $key => $id) {
-			$r = $this->model->deleteByFind($id);
+			$r = $this->model->remove($id);
 		}
 		if ($r) {
 			echo json_encode(array('error' => 0, 'msg' => '删除成功'));
@@ -116,6 +116,40 @@ class SystemStoreUserController extends \phpkit\core\BaseController {
 			echo json_encode(array('error' => 1, 'msg' => is_array($this->model->error) ? implode(",", $this->model->error) : ''));
 		}
 		exit();
+	}
+
+	//保存用户菜单
+	public function menuAction() {
+		$model = new \phpkit\backend\models\SystemAdminMenuUser();
+		$Id = $this->request->get("Id");
+		$user_id = $this->adminUserInfo['id'];
+		$this->view->data = $this->model->load($user_id);
+		$this->view->menuList = $model->getMenuListByUserId($user_id);
+		$userMenu = $model->load($user_id);
+		$this->view->menuIds = (array) $userMenu->MenuIds;
+		if ($Id == $user_id) {
+			$this->jump("不能给自己设置菜单");
+		}
+		if ($this->request->isPost()) {
+			$id = $this->request->get("id");
+			$memuIds = implode(",", $this->request->get("memuIds"));
+			$model->UserId = $id;
+			$model->MenuIds = $memuIds;
+			if ($model->save() == false) {
+				$msg = '保存失败';
+				foreach ($model->getMessages() as $message) {
+					$messages[] = $message;
+				}
+				if (is_array($messages)) {
+					$msg = implode(",", $messages);
+				}
+				$this->jump($msg);
+
+			} else {
+				$this->jump("保存成功");
+			}
+		}
+		$this->adminDisplay();
 	}
 
 }

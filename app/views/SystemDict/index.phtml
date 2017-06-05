@@ -10,7 +10,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="/"></a>
             </li>
-            <li class="active">SystemStore列表</li>
+            <li class="active">SystemDict列表</li>
         </ul>
     </div>
     <div class="page-content">
@@ -23,7 +23,7 @@
                             <div class="pull-left">
                                 列表
                             </div>
-                            <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>" style="margin-top:8px;margin-right:8px; " class="btn btn-primary btn-xs pull-right">
+                            <a href="<?php echo $this->url->get('system-dict/add')?>" style="margin-top:8px;margin-right:8px; " class="btn btn-primary btn-xs pull-right">
                                 <i class="fa fa-plus"></i> 添加记录
                             </a>
                             <div class="pull-right tableTools-container"></div>
@@ -36,13 +36,9 @@
                                                                 <input type="checkbox" class="ace">
                                                                 <span class="lbl"></span>
                                                             </label></th>
-                                                                       <th>商家Id</th>
-                                                                        <th>logo</th>
-                                                                        <th>商家名</th>
-                                                                        <th>录入时间</th>
-                                                                        <th></th>
-                                                                        <th>地址</th>
-                                                                        <th>域名</th>
+                                                                       <th>名字</th>
+                                                                     
+                                                                        <th>备注</th>
                                                                          <th>操作</th>
                                     </tr>
                                 </thead>
@@ -68,7 +64,7 @@ jQuery(function($) {
    	    //字段绑定配置
    		"columns": [{
                     bSortable: false,
-                    data: 'store_id',
+                    data: 'name',
                     render: function(data, type, row, meta) {
                         return '<label class="pos-rel"><input type="checkbox" name="ids[]" value="' + data + '" class="ace" /><span class="lbl"></span></label>'
                     }
@@ -76,35 +72,16 @@ jQuery(function($) {
                 //列表绑定数据键名
                  
                 {
-                    "data": "store_id"
+                    "data": "name"
                 },
                   
+               
                 {
-                    "data": "logo"
-                },
-                  
-                {
-                    "data": "store_name"
-                },
-                  
-                {
-                    "data": "created"
-                },
-                  
-                {
-                    "data": "photo"
-                },
-                  
-                {
-                    "data": "address"
-                },
-                  
-                {
-                    "data": "domain"
+                    "data": "remark"
                 },
                                  {
                     bSortable: false,
-                    data: 'store_id',
+                    data: 'name',
                     render: function(data, type, row, meta) {
                         var html = $("#actBnt").html();
                         var render = template.compile(html);
@@ -117,7 +94,7 @@ jQuery(function($) {
             ],
             //数据请求
             "ajax": {
-                url: "<?php echo $this->url->get($this->dispatcher->getControllerName().'/search')?>",
+                url: "<?php echo $this->url->get('system-dict/search')?>",
                 data: function(d) {
                     return $.extend({}, d, {
                         'fromAjax': 1
@@ -133,7 +110,7 @@ jQuery(function($) {
 
     //删一条数据
     function deleteRow(ids) {
-        $.getJSON('<?php echo $this->url->get($this->dispatcher->getControllerName().'/delete')?>', {
+        $.getJSON('<?php echo $this->url->get('system-dict/delete')?>', {
             ids: ids
         }, function(data) {
             if (data.error == 0) {
@@ -159,7 +136,7 @@ jQuery(function($) {
         <!-- <a class="blue" href="#">
 			<i class="ace-icon fa fa-search-plus bigger-130"></i>
 		</a> -->
-        <a class="green" href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={{Id}}">
+        <a class="green" href="<?php echo $this->url->get('system-dict/add')?>?name={{Id}}">
             <i class="ace-icon fa fa-pencil bigger-130"></i>
         </a>
         <a class="red delBnt" href="#this" data-id="{{Id}}">
@@ -180,7 +157,7 @@ jQuery(function($) {
 				</a>
 			</li> -->
                 <li>
-                    <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={{Id}}" class="tooltip-success" data-rel="tooltip" title="Edit">
+                    <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?name={{Id}}" class="tooltip-success" data-rel="tooltip" title="Edit">
                         <span class="green">
 						<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 					</span>
