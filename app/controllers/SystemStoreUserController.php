@@ -12,7 +12,7 @@ class SystemStoreUserController extends AdminController {
 		//array('in', '1,3,8');
 		//$data = $this->model->where('id in ({ids:array})')->bind(array('ids' => array('132', '131')))->select()->toArray();
 		//$data = $this->model->where(array('id' => 131))->select()->toArray();
-		//var_dump($data);
+		//var_dump($data); 
 		$this->adminDisplay();
 
 	}
