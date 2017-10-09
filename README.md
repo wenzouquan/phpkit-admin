@@ -8,4 +8,8 @@
 2. composer install 安装依赖
 
 
+# 目录介绍
+
+1.  cache ：文件缓存目录。   config ： 配置文件，di注入  。db ：数据库文件  。 app : Controller 和 model 
+
  
