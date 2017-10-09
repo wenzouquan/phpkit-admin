@@ -7,6 +7,8 @@
 
 2. composer install 安装依赖
 
+3.将db目录下的sql文件导入到数据库
+
 
 # 目录介绍
 
