@@ -1,0 +1,28 @@
+{
+    "name": "phpkit",
+    "description": "the new phpkit framework",
+    "type": "project",
+    "keywords": [
+        "phpkit"
+    ],
+    "homepage": "http://www.phpkit.me/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "wen",
+            "email": "359945126@qq.com"
+        }
+    ],
+    "config": {
+        "preferred-install": "dist"
+    },
+    "require": {
+        "phpkit/auth": "dev-master",
+        "phpkit/config": "dev-master",
+        "phpkit/core": "dev-master",
+        "phpkit/backend": "dev-master",
+        "phpkit/callback": "dev-master",
+        "phpkit/dict": "dev-master",
+        "phpkit/base": "dev-master"
+    }
+}
