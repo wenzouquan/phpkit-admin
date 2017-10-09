@@ -11,7 +11,7 @@
  Target Server Version : 50632
  File Encoding         : utf-8
 
- Date: 10/09/2017 18:24:06 PM
+ Date: 10/09/2017 19:38:39 PM
 */
 
 SET NAMES utf8;
@@ -113,7 +113,7 @@ CREATE TABLE `system_admin_menu` (
 --  Records of `system_admin_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_admin_menu` VALUES ('1', '/phpkit-admin/system-admin-menu/index', '系统菜单', '2', '1', '', 'system-admin-menu'), ('2', '/phpkit-admin/addon-auth/index', '权限列表', '3', '1', '', 'addon-auth'), ('3', '/phpkit-admin/addon-auth-group/index', '权限组', '2', '1', '', 'addon-auth-group'), ('4', '/phpkit-admin/scaffold/index', 'CRUD模型', '999', '1', '', 'scaffold'), ('5', '/phpkit-admin/system-store/index', '商户管理', '999', '1', '', 'system-store'), ('6', '/phpkit-admin/system-store-user/index', '后台用户', '999', '1', '', 'system-store-user'), ('7', '/phpkit-admin/system-admin-menu-group/index', '系统菜单分组', '1', '1', '', 'system-admin-menu-group'), ('8', '/phpkit-admin/addon-auth-user-roles/index', '用户组', '6', '1', '', 'addon-auth-user-roles'), ('9', '/phpkit-admin/cache/index', '缓存管理', '999', '1', '', 'cache'), ('10', '/phpkit-admin/system-dict/index', '字典管理', '999', '1', '', 'system-dict');
+INSERT INTO `system_admin_menu` VALUES ('1', '/system-admin-menu/index', '系统菜单', '2', '1', '', 'system-admin-menu'), ('2', '/addon-auth/index', '权限列表', '3', '1', '', 'addon-auth'), ('3', '/addon-auth-group/index', '权限组', '2', '1', '', 'addon-auth-group'), ('4', '/scaffold/index', 'CRUD模型', '999', '1', '', 'scaffold'), ('5', '/system-store/index', '商户管理', '999', '1', '', 'system-store'), ('6', '/system-store-user/index', '后台用户', '999', '1', '', 'system-store-user'), ('7', '/system-admin-menu-group/index', '系统菜单分组', '1', '1', '', 'system-admin-menu-group'), ('8', '/addon-auth-user-roles/index', '用户组', '6', '1', '', 'addon-auth-user-roles'), ('9', '/cache/index', '缓存管理', '999', '1', '', 'cache'), ('10', '/system-dict/index', '字典管理', '999', '1', '', 'system-dict');
 COMMIT;
 
 -- ----------------------------
