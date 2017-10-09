@@ -3,9 +3,9 @@
 
 # 安装使用
 
-1.安装php扩展：Phalcon ，http://phalcon.ipanta.com/
+1.安装php扩展：Phalcon ，http://phalcon.ipanta.com
 
-2. composer install 安装依赖
+2.在phpkit-admin目录下执行：composer install 安装依赖
 
 3.将db目录下的sql文件导入到数据库
 
