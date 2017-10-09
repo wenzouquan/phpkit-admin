@@ -65,7 +65,7 @@ class SystemDictController extends AdminController {
 		$name = $this->request->get("name");
 		if (!empty($name)) {
 			$model = $this->view->data = $this->model->load($name);
-			$this->view->value = \phpkit\helper\arrayeval(json_decode($this->view->data->value, ture));
+			$this->view->value = \phpkit\helper\arrayeval($this->view->data->value, ture);
 		}
 		if ($this->request->isPost()) {
 			if (empty($model)) {
@@ -77,7 +77,7 @@ class SystemDictController extends AdminController {
 				$value_str = "'" . $value_str . "'";
 			}
 			eval("\$value = " . $value_str . "; ");
-			$data['value'] = json_encode($value);
+			$data['value'] = $value;
 			if ($model->save($data) == false) {
 				$msg = '保存失败';
 				foreach ($model->getMessages() as $message) {
