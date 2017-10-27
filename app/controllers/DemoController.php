@@ -20,7 +20,7 @@ class DemoController extends Controller {
 		);
 		//支付宝支付
 
-		$pay = new phpkit\pay\Pay();
+		$pay = new \phpkit\pay\Pay();
 		//支付成功之后回调
 		if ($OrderNo = $pay->getOrderNo()) {
 			//通过订单号查出支付方式，这里我测试写死的
