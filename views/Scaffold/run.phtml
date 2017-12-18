@@ -1,0 +1,79 @@
+ <div class="main-content-inner">
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href=""></a>
+			</li>
+ 
+			<li class="active">请配置<?php echo $data['table']?>字段</li>
+		</ul>
+	</div>
+
+	<div class="page-content">
+		<div class="panel-body">
+			<form id="myform" method="post" class="form-horizontal" action="<?php echo $this->url->get($this->dispatcher->getControllerName().'/run2')?>">
+		  
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">表名</label>
+				<div class="col-sm-7">
+					<input type="text" name="table" readonly value="<?php echo $data['table']?>" placeholder="如：addon_auth" class="form-control" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">主键</label>
+				<div class="col-sm-7">
+					<input type="text" name="modelPk" readonly value="<?php echo $modelPk?>" placeholder="如：addon_auth" class="form-control" >
+				</div>
+			</div>
+			
+	 
+	 		<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">字段设置</label>
+				<div class="col-sm-7">
+				 <textarea style="height:400px" name="columns" class="form-control"><?php echo $columns?></textarea>
+			
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-7">
+					<button type="submit" class="btn btn-primary">生成CRUD</button>
+				</div>
+			</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+ 
+$(function(){
+    $(".form-horizontal").bootstrapValidator({
+        message: '您填入的值不合法',
+        fields:{
+
+			appName: {
+                message: 'app目录名',
+                validators: {
+                    notEmpty: {
+                        message: 'app目录名不能为空'
+                    },
+                }
+            }, 
+            table: {
+                message: '表名',
+                validators: {
+                    notEmpty: {
+                        message: '表名不能为空'
+                    },
+                }
+            }, 
+            
+        }
+    });
+ 
+	});
+ </script> 

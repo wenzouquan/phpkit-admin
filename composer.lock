@@ -1,0 +1,283 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e5811e2fef84eea6ae99f83e0ff25923",
+    "packages": [
+        {
+            "name": "phpkit/auth",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-auth.git",
+                "reference": "f6e6f7576bd5041e54639aad3831d5dc26c80717"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-auth/zipball/f6e6f7576bd5041e54639aad3831d5dc26c80717",
+                "reference": "f6e6f7576bd5041e54639aad3831d5dc26c80717",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\auth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "权限控制,基于phalcon开发",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "pay"
+            ],
+            "time": "2017-10-09T07:30:51+00:00"
+        },
+        {
+            "name": "phpkit/backend",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-backend.git",
+                "reference": "46e8e9eccc6cde90dec9684e7caf58070bb459ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-backend/zipball/46e8e9eccc6cde90dec9684e7caf58070bb459ef",
+                "reference": "46e8e9eccc6cde90dec9684e7caf58070bb459ef",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\backend\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "wen",
+                    "email": "359945126@qq.com"
+                }
+            ],
+            "description": "通用后台 , 基于 boostrap , ace , Phalcon",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "通用后台"
+            ],
+            "time": "2017-10-09T13:40:26+00:00"
+        },
+        {
+            "name": "phpkit/base",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-base.git",
+                "reference": "ef2f9e7821bd0992c0f2863018c4333def86634c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-base/zipball/ef2f9e7821bd0992c0f2863018c4333def86634c",
+                "reference": "ef2f9e7821bd0992c0f2863018c4333def86634c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\base\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "wen",
+                    "email": "wen190@163.com"
+                }
+            ],
+            "description": "phpkit base类，基于phalcon",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "core"
+            ],
+            "time": "2017-10-09T06:59:25+00:00"
+        },
+        {
+            "name": "phpkit/callback",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-callback.git",
+                "reference": "c47f2b92ab39a3befc3c62e6d687806317d8804d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-callback/zipball/c47f2b92ab39a3befc3c62e6d687806317d8804d",
+                "reference": "c47f2b92ab39a3befc3c62e6d687806317d8804d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\callback\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "函数回调处理",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "php callback"
+            ],
+            "time": "2017-06-01T10:36:45+00:00"
+        },
+        {
+            "name": "phpkit/config",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-config.git",
+                "reference": "387712a1ec0771d6b86d183101913926ff0a5861"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-config/zipball/387712a1ec0771d6b86d183101913926ff0a5861",
+                "reference": "387712a1ec0771d6b86d183101913926ff0a5861",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\config\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "wen",
+                    "email": "359945126@qq.com"
+                }
+            ],
+            "description": "生成配置文件,主要用于简单的永久的配置",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "pay"
+            ],
+            "time": "2017-10-09T11:36:11+00:00"
+        },
+        {
+            "name": "phpkit/core",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-core.git",
+                "reference": "cb5625ba636b998d0dc89d17bb896f76164401ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-core/zipball/cb5625ba636b998d0dc89d17bb896f76164401ac",
+                "reference": "cb5625ba636b998d0dc89d17bb896f76164401ac",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\core\\": "src/"
+                },
+                "files": [
+                    "src/functions.php",
+                    "src/apc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "wen190",
+                    "email": "359945126@qq.com"
+                }
+            ],
+            "description": "phpkit 核心类，基于 phalcon",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "core"
+            ],
+            "time": "2017-11-30T01:29:41+00:00"
+        },
+        {
+            "name": "phpkit/dict",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzouquan/phpkit-dict.git",
+                "reference": "f4db95ca596346c12f1523a4e2043bfaab278e52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzouquan/phpkit-dict/zipball/f4db95ca596346c12f1523a4e2043bfaab278e52",
+                "reference": "f4db95ca596346c12f1523a4e2043bfaab278e52",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpkit\\dict\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "字典",
+            "homepage": "http://www.phpkit.me/",
+            "keywords": [
+                "Dict"
+            ],
+            "time": "2017-10-09T07:33:48+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "phpkit/auth": 20,
+        "phpkit/config": 20,
+        "phpkit/core": 20,
+        "phpkit/backend": 20,
+        "phpkit/callback": 20,
+        "phpkit/dict": 20,
+        "phpkit/base": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

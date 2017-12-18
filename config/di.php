@@ -5,37 +5,41 @@
  * Date: 17/8/25
  * Time: 下午5:07
  */
+$config = array(
+  'cacheDir' =>dirname(dirname(dirname(dirname(__FILE__))))."/runtime/phpkitCache",
+  'configDir'=>dirname(__FILE__)."/",
+);
 
 //数据库结构缓存,默认apc
- $di['modelsMetadata'] = function () {
-      \phpkit\helper\mk_dir(phpkitRoot . '/cache/metadata/');
+ $di['modelsMetadata'] = function ()use ($config) {
+      \phpkit\helper\mk_dir($config['cacheDir'] . '/metadata/');
      $metaData = new \Phalcon\Mvc\Model\Metadata\Files([
-         "metaDataDir" => phpkitRoot . '/cache/metadata/',
+         "metaDataDir" => $config['cacheDir'].'/metadata/',
      ]);
      return $metaData;
  };
             
 
 //配置读取类
-$di['config'] = function () {
+$di['config'] = function () use ($config){
     $params = array(
-        'configDir' => phpkitRoot . '/config/',
+        'configDir' =>$config['configDir'] ,
     );
     $config = new \phpkit\config\Config($params);
     return $config;
 };
 
 //数据库
-$di['db'] = function () {
+$di['db'] = function ()use ($config) {
     $params = array(
-        'configDir' => phpkitRoot . '/config/',
+        'configDir' => $config['configDir'] ,
     );
     $config = new \phpkit\config\Config($params);
     $DbConfig = $config->get("database");
     return new \Phalcon\Db\Adapter\Pdo\Mysql($DbConfig);
 };
 
-//缓存注入
+//缓存依赖注入
 // $di['cache'] = function () {
 //     return new \phpkit\redis\Redis(array(
 //         "prefix" => 'project-name-data-cache-',
@@ -44,11 +48,11 @@ $di['db'] = function () {
 //         'persistent' => true,
 //     ));
 // };
-$di['cache'] = function () {
+$di['cache'] = function () use ($config){
     $frontCache = new \Phalcon\Cache\Frontend\Data(array(
-        "lifetime" => 0,
+        "lifetime" => 3600*24*360*3,
     ));
-    $cacheDir = phpkitRoot . '/cache/data/';
+    $cacheDir = $config['cacheDir']. '/data/';
     \phpkit\helper\mk_dir($cacheDir);
    return new \Phalcon\Cache\Backend\File($frontCache, array(
         "cacheDir" => $cacheDir,
@@ -56,12 +60,6 @@ $di['cache'] = function () {
 };
 
 
-//注入日志服务
-$di['logger']=function(){
-    $params = require phpkitRoot."/config/log.php";
-    $logger = new \phpkit\aliyunLogger\Logger($params);
-    return $logger;
-};
 
 
 return $di;

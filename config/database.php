@@ -1,8 +1,10 @@
 <?php
+$data =   require dirname(dirname(dirname(__FILE__)))."/database.php";//
 return array(
-	"host" => "127.0.0.1",
-	"username" => "root",
-	"password" => "123",
-	"dbname" => "phpkit",
+	"host" =>$data['hostname'],
+	"username" => $data['username'],
+	"password" => $data['password'],
+	"dbname" => $data['database'],
 	"charset" => "utf8",
+	"prefix"=>$data['prefix'],
 );

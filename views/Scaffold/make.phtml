@@ -1,0 +1,120 @@
+ <div class="main-content-inner">
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href=""></a>
+			</li>
+ 
+			<li class="active">生成 CRUD(创建、读取、更新和删除) 文件</li>
+		</ul>
+	</div>
+
+	<div class="page-content">
+		<div class="panel-body">
+			<form id="myform" method="post" class="form-horizontal" action="<?php echo $this->url->get($this->dispatcher->getControllerName().'/run')?>">
+		  
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">表名</label>
+				<div class="col-sm-7">
+					<input type="text" name="table" value="" placeholder="如：addon_auth" class="form-control" >
+				</div>
+			</div>
+	 
+	 		<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">文件生目录</label>
+				<div class="col-sm-7">
+					<input type="text" name="appName" value="<?php echo dirname(phpkitRoot)?>" placeholder="相对于：<?php echo phpkitRoot?>,如：phpkit-admin" class="form-control" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">model 的命名空间</label>
+				<div class="col-sm-7">
+					<input type="text"  placeholder="如：make\common" name="modelNamespace"   value="app\admin\model"  class="form-control" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">model 继承</label>
+				<div class="col-sm-7">
+					<input type="text" name="model" value="BaseModel" class="form-control" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">Controller 的命名空间</label>
+				<div class="col-sm-7">
+					<input type="text" name="controllerNamespace" placeholder="如：make\common" value="app\admin\controller" class="form-control" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">Controller 继承</label>
+				<div class="col-sm-7">
+					<input type="text" name="controller" value="BaseController" class="form-control" >
+				</div>
+			</div>
+	 
+
+	     <div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">框架</label>
+				<div class="col-sm-7">
+					 
+					<select name="frame">
+						<option  value="1">phalcon</option>
+						<option selected value="2">Tp5</option>
+					</select>
+				</div>
+			</div>
+
+
+	 		<div class="form-group">
+				<label for="input-title"  class="col-sm-2 control-label">是否覆盖原文件</label>
+				<div class="col-sm-7" style="margin-top:5px">
+					<label><input type="radio" name="overwrite" value="1" >是 </label> 
+					<label> <input checked value="0" type="radio" name="overwrite"> 否</label> 	 
+				</div>
+			</div>
+	 
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-7">
+					<button type="submit" class="btn btn-primary">下一步</button>
+				</div>
+			</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+ 
+$(function(){
+    $(".form-horizontal").bootstrapValidator({
+        message: '您填入的值不合法',
+        fields:{
+
+			appName: {
+                message: 'app目录名',
+                validators: {
+                    notEmpty: {
+                        message: 'app目录名不能为空'
+                    },
+                }
+            }, 
+            table: {
+                message: '表名',
+                validators: {
+                    notEmpty: {
+                        message: '表名不能为空'
+                    },
+                }
+            }, 
+            
+        }
+    });
+ 
+	});
+ </script> 
