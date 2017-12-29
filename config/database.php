@@ -1,5 +1,5 @@
 <?php
-$data =   require dirname(dirname(dirname(__FILE__)))."/database.php";//
+$data =   require dirname(dirname(dirname(dirname(__FILE__))))."/make/database.php";//
 return array(
 	"host" =>$data['hostname'],
 	"username" => $data['username'],

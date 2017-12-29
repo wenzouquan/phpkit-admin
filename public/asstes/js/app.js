@@ -123,7 +123,7 @@
                 //$(".loading").remove();
                 $(".loader--style1").hide();
             },
-
+ 
             GetRequest: function(url) {
                 var theRequest = new Object();
                 if (url.indexOf("?") != -1) {
