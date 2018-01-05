@@ -1,0 +1,8 @@
+ {% extends "../vendor/phpkit/backend/src/views/index.phtml" %}
+ {% block head %}
+	<title><?php echo $this->getDi()->getConfig()->get('setting')['adminTitle']?></title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+ {% endblock %}
+ {% block content %}{{content}}{% endblock %}
+
+ {% block footer %}{% endblock %}
