@@ -139,10 +139,10 @@ jQuery(function($) {
         <!-- <a class="blue" href="#">
 			<i class="ace-icon fa fa-search-plus bigger-130"></i>
 		</a> -->
-        <a class="green" href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={{Id}}">
+        <a class="green" href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={/Id/}">
             <i class="ace-icon fa fa-pencil bigger-130"></i>
         </a>
-        <a class="red delBnt" href="#this" data-id="{{Id}}">
+        <a class="red delBnt" href="#this" data-id="{/Id/}">
             <i class="ace-icon fa fa-trash-o bigger-130"></i>
         </a>
     </div>
@@ -160,14 +160,14 @@ jQuery(function($) {
 				</a>
 			</li> -->
                 <li>
-                    <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={{Id}}" class="tooltip-success" data-rel="tooltip" title="Edit">
+                    <a href="<?php echo $this->url->get($this->dispatcher->getControllerName().'/add')?>?Id={/Id/}" class="tooltip-success" data-rel="tooltip" title="Edit">
                         <span class="green">
 						<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 					</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#this" " data-id="{{Id}} " class="tooltip-error delBnt " data-rel="tooltip " title="Delete ">
+                    <a href="#this" " data-id="{/Id/} " class="tooltip-error delBnt " data-rel="tooltip " title="Delete ">
 					<span class="red ">
 						<i class="ace-icon fa fa-trash-o bigger-120 "></i>
 					</span>
