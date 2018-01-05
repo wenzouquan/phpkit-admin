@@ -6,7 +6,7 @@
  * Time: 下午5:07
  */
 $config = array(
-  'cacheDir' =>dirname(dirname(dirname(dirname(__FILE__))))."/runtime/phpkitCache",
+  'cacheDir' =>dirname(dirname(__FILE__))."/cache",
   'configDir'=>dirname(__FILE__)."/",
 );
 
