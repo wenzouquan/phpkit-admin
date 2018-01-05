@@ -8,6 +8,7 @@ class CacheController extends AdminController {
 	public function indexAction() {
 		$this->session->set("user-name", "Michael");
 		$this->adminDisplay();
+		//$this->display();
 	}
 
 	public function testAction() {
