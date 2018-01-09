@@ -2,6 +2,7 @@
  {% block head %}
 	<title><?php echo $this->getDi()->getConfig()->get('setting')['adminTitle']?></title>
 	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->getDi()->getConfig()->get('setting')['asstesUrl']?>/css/admin.css">
  {% endblock %}
  {% block content %}{{content}}{% endblock %}
 
