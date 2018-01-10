@@ -1,9 +1,7 @@
 <?php
 /*
  * @thinkphp5.0  后台auth认证   php5.3以上
- * @Created on 2016/07/25
- * @Author  Kevin   858785716@qq.com
- * @如果需要公共控制器，就不要继承AdminAuth，直接继承Controller
+ * @Author     359945126@qq.com
  */
 namespace app\admin\controller;
 
@@ -61,7 +59,7 @@ class Base extends Controller {
     		}
     	}
 	}
-	
+
    //设置选中的菜单 
 	protected function setNavActive($activemenu){
 		$_GET['activemenu'] = $activemenu;
