@@ -14,4 +14,10 @@
 
 1.  cache ：文件缓存目录。   config ： 配置文件，di注入  。db ：数据库文件  。 app : Controller 和 model 
 
+
+# 在其它框架中使用 
+
+可以考参与 demo 目录的 tp5Base.php文件类 （tp5框架中使用phpkitadmin的例子 ）， 后台所有文件都继承它，就可以实现权限验证 ，使用  adminDisplay 方法显示 后台模板   
+
+
  
