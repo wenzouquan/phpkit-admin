@@ -3,6 +3,7 @@
     var app = function(params) {
         app.wxLoad = null;
         //app.wx = require("jweixin");
+        app.dynamicTables={};
         app.params = {
             versions: '6.7',
             userVersions: '2.4',
@@ -71,6 +72,63 @@
                 var html = '<div class="popup" id="' + id + '">' + content + '</div>';
                 $(".pageShow").append(html);
                 app.show_popup("#" + id);
+            },
+            //模态框 
+            modal:function(config){
+                app.showLoad();
+                var title = config.title;
+                var modal_id = config.id;
+                var width =config.width; 
+                var url = typeof(config.url)=='string' ?config.url:false;
+                if (typeof(modal_id) != "string") {
+                    var id = "modal_popup";
+                } else {
+                    var id = modal_id;
+                } 
+                if(typeof(width)=='undefined' ){
+                    width = $(window).width()*0.8;
+                }
+                var add_to_page = $("body");
+                var modalHead = "";
+                var modal_popup_html = '<div  class="modal modal_popup" id="' + id + '" >';
+                modal_popup_html += '<div class="modal-dialog" style="width:'+width+'px">';
+                modal_popup_html += '<div class="modal-content" >'
+                    //modal_popup_html += modalHead;
+                modal_popup_html += '<div class="modal-body" >'
+                modal_popup_html += '</div>'
+                modal_popup_html += '</div>'
+                modal_popup_html += '</div>'
+                modal_popup_html += '</div>';
+                if ($("#" + id).length == 0) {
+                    add_to_page.append(modal_popup_html);
+                } else {
+                    if ($(add_to_page).find("#" + id).length == 0) {
+                        var clone_modal = $("#" + id).clone();
+                        $("#" + id).remove();
+                        $(clone_modal).appendTo($(add_to_page));
+                    }
+                }
+                $("#" + id).find(".modal-header").remove();
+                if (typeof(title) == "string" && title != "") {
+                    modalHead = '<div class="modal-header label-primary"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" style="color: #fff;">' + title + '</h4></div>';
+                    $(modalHead).insertBefore($("#" + id).find(".modal-content"))
+                }
+                $('#'+id).on('loaded.bs.modal', function (e) {
+                    $(this).find("#breadcrumbs").hide();
+                    $(this).find(".table-header").hide();
+                    config.loaded?config.loaded(this):'';
+                    
+                })
+
+                $('#'+id).on('shown.bs.modal', function (e) {
+                     config.shown?config.shown(this):'';
+                })
+                
+                var options ={
+                    remote:url
+                };
+                $('#'+id).modal(options);
+                
             },
             //
             show_popup: function(popupId) {
@@ -438,7 +496,7 @@
                 //select/deselect all rows according to table header checkbox
                 $('#' + em + '_wrapper input[type=checkbox]').eq(0).on('click', function() {
                     var th_checked = this.checked; //checkbox inside "TH" table header
-                    $('#dynamic-table').find('tbody > tr').each(function() {
+                    $('#'+em).find('tbody > tr').each(function() {
                         var row = this;
                         if (th_checked) myTable.row(row).select();
                         else myTable.row(row).deselect();
@@ -458,7 +516,11 @@
                     e.stopPropagation();
                     e.preventDefault();
                 });
-                return myTable;
+
+               app.dynamicTables[em] = myTable;
+              // console.log(em);
+               $(document).trigger(em+".init",[myTable]);
+               return myTable;
             }
 
         };
