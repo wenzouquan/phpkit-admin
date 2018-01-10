@@ -11,7 +11,7 @@
 
 4.在config目录改配置
 
-4.访问后台 ：http://你的域名/phpkit-admin/index.php
+5.访问后台 ：http://你的域名/phpkit-admin/index.php
 
 
 # 目录介绍
