@@ -49,12 +49,78 @@ class ScaffoldController extends AdminController {
  				'modelsDir'=>rtrim($data['path'],"/")."/",
  				'model'=>$data['extendsModel'],
  				'overwrite'=>$data['overwrite'],
- 				'namespace'=>$data['namespace'],
+ 				'namespace'=>$data['namespace']."\\models",
  				'tableName'=>$table,
 			);
 			$scaffold->makeModel($config);
 		}
 		
+	}
+
+	public function makeSeveiceAction(){
+		$this->adminDisplay();
+	}
+
+	public function doMakeSeveiceAction(){
+		$databaseConfig = $this->getDi()->getConfig()->get('database');
+		$prefix=$databaseConfig['prefix']?$databaseConfig['prefix']:"";
+		//$config = new \phpkit\config\Config();
+		$data = (array) $this->request->getPost();
+		$table=$data['table'];
+		if(strpos($table, $prefix)===0){
+			$data['modelName']=substr_replace($table,'',0,strlen($prefix));
+		}else{
+			$data['modelName']= $table;
+		}
+		
+	   
+		$db = $this->getDi()->getDb();
+		$dbname = $db->getDescriptor()['dbname'];
+		$sql = "select COLUMN_NAME,COLUMN_COMMENT,IS_NULLABLE,COLUMN_KEY from INFORMATION_SCHEMA.Columns where table_name='" . $data['table'] . "' and table_schema='" . $dbname . "' ";
+		$columns = $db->fetchAll($sql);
+		if (empty($columns)) {
+			$this->jump($dbname . "." . $data['table'] . "没有查到任何字段");
+		}
+
+		$columnsList = array();
+			//var_dump($columns);
+		foreach ($columns as $key => $value) {
+			$columnsList[] = $value['COLUMN_NAME'];
+			if ($value['COLUMN_KEY'] == 'PRI') {
+				$this->view->modelPk = $value['COLUMN_NAME'];
+			}
+		}
+		
+		$data['modelName'] = \phpkit\helper\convertUnderline($data['modelName']);
+		var_dump($data);
+		$this->view->data = (object)$data;
+		$this->view->columnsList="'".implode("','", $columnsList)."'";
+		$this->view->columnsListForOrder="'".implode(" desc ','", $columnsList)." desc'". ",'".implode("','", $columnsList)."'";
+		//echo($this->view->columnsListForOrder);
+		$seveiceContent = str_replace("</php>","?>",str_replace("<php>", "<?php ", $this->view->getRender('Scaffold',"seveiceTpl")));
+		try{
+			\phpkit\helper\saveFile($data->path."/".$data->service.".php",$seveiceContent,$data->overwrite);
+		}catch(\Exception $e){
+			print $e->getMessage(); 
+		}
+		try{
+			//生成 model
+			$config = array(
+ 				'table'=>\phpkit\helper\convertUnderline($data->table),
+ 				'modelsDir'=>rtrim($data->path,"/")."/models/",
+ 				'model'=>$data->extendsModel,
+ 				'overwrite'=>$data->overwrite,
+ 				'namespace'=>$data->namespace."\\models",
+ 				'tableName'=>$data->table,
+			);
+			$scaffold = new \phpkit\backend\Scaffold();
+			$scaffold->makeModel($config);
+		}catch(\Exception $e){
+			print $e->getMessage(); 
+		}
+		//var_dump($seveiceContent);
+		//exit();
+
 	}
 
 	public function runAction() {
