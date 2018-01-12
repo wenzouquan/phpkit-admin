@@ -1,0 +1,141 @@
+<php>
+namespace {{data.namespace}};
+class {{data.service}} extends {{data.extendsServices}} {
+ 
+   function __construct(){
+	  $this->model = new models\{{data.modelName}}();
+	}
+
+  function get($params=[]){
+  		$allowConditionFields=[{{columnsList}}];//允许做为查询条件的字段 
+  		$allowOrderFields=[{{columnsListForOrder}}];//允许做为排序的字段 
+  		$fields = is_array($params['fields'])?$params['fields']:[{{columnsList}}];//返回字段 
+  		$pagesize=isset($params['limit'])?intval($params['limit']):10;//返回条数
+  		$page= intval($params['page'])?$params['page']:1;
+  		$orderBy=$allowOrderFields[$params['order']]?$params['order']:'';//排序 
+  		$offset = ($page-1)*$pagesize;//起始数 
+  		$conditions=[];
+  		//查询条件 
+        foreach ($params as $key => $where) {
+        	 if(in_array($key,$allowConditionFields)){
+        	 	$conditions[$key]=$where;
+        	 }
+        }
+      	if(isset($params['limit'])){
+      		$this->model->limit("$pagesize,$offset");
+      	}
+      	if(!empty($conditions)){
+      		$this->model->where($conditions);
+     	}
+     	if(!empty($orderBy) ){
+     		$this->model->order($orderBy);
+	    }
+  		$res = $this->model->select();
+  		if(isset($params['limit'])){
+  			$recordsFiltered = $res['recordsFiltered'];
+			$recordsTotal = $res['recordsTotal'];
+			$data = $res["list"];
+  		}else{
+  			$recordsFiltered = count($res);
+			$recordsTotal = count($res);
+			$data = $res;
+  		}
+		//exit();
+		$lists = array();
+		foreach ($data as $key=>$list) {
+			 foreach ($fields as  $field) {
+			 	$lists[$key][$field]=$list->$field;
+			 }
+		}
+		$data = array(
+			'recordsTotal' => $recordsTotal,
+			'recordsFiltered' => $recordsFiltered,
+			'limit'=>$limit,
+			'list' => $lists,
+		);
+		return ['code'=>0,'msg'=>'成功','data'=>$data];
+  }
+
+  //保存和修改 
+  function save($data){
+  	    $Id = $data['{{modelPk}}'];
+		if (!empty($Id)) { //修改 
+			$model =  $this->model->load($Id);
+		}
+
+		if (empty($model)) {
+				$model = $this->model;
+		}
+
+		$res = [];//保存成功有数据 
+		if ($model->save($data,[{{columnsList}}]) == false) {
+				$msg = '保存失败';
+				$code = 1;
+				foreach ($model->getMessages() as $message) {
+					$messages[] = $message;
+				}
+				if (is_array($messages)) {
+					$msg = implode(",", $messages);
+				}
+
+				
+		} else {
+			  $msg = '保存成功';
+			  $code = 0;
+			  $res = $model->toArray();
+		}
+
+		return ['msg'=>$msg,'code'=>$code,'data'=>$res];
+    
+
+  }
+
+  //删除 
+  function del($id){
+	if(empty($id)){
+		return  ['code' => 2, 'msg' => '只能使用主键删除'];
+	}
+	$r = $this->model->remove($id);
+	if ($r) {
+		return  ['code' => 0, 'msg' => '删除成功'];
+	} else {
+		return ['code' => 1, 'msg' => is_array($this->model->error) ? implode(",", $this->model->error) : ''];
+	}
+  }
+
+ //查询一条记录 
+  function find($params){
+  	 $allowConditionFields=[{{columnsList}}];//允许做为查询条件的字段 
+  	 $fields = is_array($params['fields'])?$params['fields']:[{{columnsList}}];//返回字段 
+  	 $conditions=[];
+	//查询条件 
+    if(is_array($params)){
+			//查询条件 
+	    foreach ($params as $key => $where) {
+	    	 if(in_array($key,$allowConditionFields)){
+	    	 	$conditions[$key]=$where;
+	    	 }
+	    }
+	    $res = $this->model->where($conditions)->load();
+	}else{
+		 $res = $this->model->load($params);
+	}
+    if($res=="nodata"){
+    	return ['code'=>1,'msg'=>'未查到相关数据'];
+    }
+    if(empty($res)){
+    	$errors=$this->model->getMessages();
+    	$msg=is_array($errors)?implode(",", $errors):'未查到相关数据';
+    	return ['code'=>2,'msg'=>$msg];
+    }
+
+	foreach ($fields as  $field) {
+	 	$data[$field]=$res->$field;
+	 }
+	 return ['code'=>0,'msg'=>'成功','data'=>$data];
+
+  }
+
+	 
+}
+
