@@ -24,6 +24,50 @@ class ScaffoldController extends AdminController {
 	
 	}
 
+	//导
+	public function makeApiAction(){
+		$this->adminDisplay();
+	}
+
+    public function doMakeApiAction(){
+		$databaseConfig = $this->getDi()->getConfig()->get('database');
+		$prefix=$databaseConfig['prefix']?$databaseConfig['prefix']:"";
+		//$config = new \phpkit\config\Config();
+		$data = (array) $this->request->getPost();
+		$table=$data['table'];
+		$db = $this->getDi()->getDb();
+		$dbname = $db->getDescriptor()['dbname'];
+		$sql = "select COLUMN_NAME,COLUMN_COMMENT,IS_NULLABLE,COLUMN_KEY from INFORMATION_SCHEMA.Columns where table_name='" . $data['table'] . "' and table_schema='" . $dbname . "' ";
+		$columns = $db->fetchAll($sql);
+		if (empty($columns)) {
+			$this->jump($dbname . "." . $data['table'] . "没有查到任何字段");
+		}
+
+		$columnsList = array();
+			//var_dump($columns);
+		foreach ($columns as $key => $value) {
+			$columnsList[] = $value['COLUMN_NAME'];
+			if ($value['COLUMN_KEY'] == 'PRI') {
+				$this->view->modelPk = $value['COLUMN_NAME'];
+			}
+		}
+		
+		$this->view->data = (object)$data;
+		$this->view->columnsList="'".implode("','", $columnsList)."'";
+		$this->view->columnsListForOrder="'".implode(" desc ','", $columnsList)." desc'". ",'".implode("','", $columnsList)."'";
+		//echo($this->view->columnsListForOrder);
+		$content = str_replace("</php>","?>",str_replace("<php>", "<?php ", $this->view->getRender('Scaffold',"apiTpl")));
+		try{
+			\phpkit\helper\saveFile($data->path."/".$data->name.".php",$content,$data->overwrite);
+		}catch(\Exception $e){
+			print $e->getMessage(); 
+		}
+		
+
+	}
+
+
+
 	function doMakeAllModelAction(){
 		
 		$databaseConfig = $this->getDi()->getConfig()->get('database');
