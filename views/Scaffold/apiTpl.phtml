@@ -1,0 +1,115 @@
+<php>
+{{data.namespace}}
+use Phalcon\Mvc\Controller;
+
+class {{data.name}} extends  {{data.extendsController}}{
+	public function initialize() {
+		parent::initialize();
+		$this->services = $this->di['services']->getService("{{data.service}}");
+		
+	}
+
+	 function getAction(){
+	 		$params = $this->request->get();
+	 		$params['command_user_id']=$this->getUserId();
+	  		$allowConditionFields=[{{columnsList}}];//允许做为查询条件的字段 
+	  		$allowOrderFields=[{{columnsListForOrder}}];//允许做为排序的字段 
+	  		//返回字段 
+	  		$allowFields=[{{columnsList}}];//充许返回的字段 
+	  		if(isset($params['fields'])){
+	  			$fields =explode(",", $params['fields']) ;
+	  			foreach ($fields as $key => $field) {
+	  			  if(!in_array($field,$allowFields)){
+	        	 	 unset($fields[$key]);
+	        	 }
+	  			}
+	  		}else{
+	  			$fields = $allowFields;
+	  		}
+	  		$arg['fields']=$fields;
+	  	   //查询条件 
+	  		$conditions=[];
+	  		//查询条件 
+	        foreach ($params as $key => $where) {
+	        	 if(in_array($key,$allowConditionFields)){
+	        	 	$conditions[$key]=$where;
+	        	 }
+	        }
+	        $arg['conditions']=$conditions;
+	        //排序 
+	        $arg['orderBy']=in_array($params['order'],$allowOrderFields)?$params['order']:'';//排序 
+	        //返回条数
+	  		if(isset($params['limit'])){
+	  			$arg['pagesize'] = $params['limit'];
+	  			$arg['page']= intval($params['page'])?$params['page']:1;
+	  		}
+	  		$arg['params']=$params;
+	 		$res =$this->services->get($arg);
+	 		$this->echoJson($res['code'],$res['msg'],$res['data']);
+	 }
+
+
+
+
+	 function addAction(){
+	 	 $params = $this->request->getPost();
+	 	 $params['user_id']=$this->getUserId();
+	 	 $allowFields=[{{columnsList}}];//充许返回的字段 
+	 	 $addRow=[];
+	 	 foreach ($params as $key => $value) {
+	 	 	 if(in_array($key,$allowFields)){
+	        	 	$addRow[$key]=$value;
+	        }
+	 	 }
+	 	 $addRow['params']=$params;
+	 	 $res = $this->services->save($addRow);
+	 	 $this->echoJson($res['code'],$res['msg'],$res['data']);
+	 }
+	 
+	 function findAction(){
+	 	${{modelPk}} = $this->request->get('{{modelPk}}');
+	 	$params = $this->request->get();
+ 		$params['command_user_id']=$this->getUserId();
+  		$allowConditionFields=[{{columnsList}}];//允许做为查询条件的字段 
+  		$allowOrderFields=[{{columnsListForOrder}}];//允许做为排序的字段 
+  		//返回字段 
+  		$allowFields=[{{columnsList}}];//充许返回的字段 
+  		if(isset($params['fields'])){
+  			$fields =explode(",", $params['fields']) ;
+  			foreach ($fields as $key => $field) {
+  			  if(!in_array($field,$allowFields)){
+        	 	 unset($fields[$key]);
+        	 }
+  			}
+  		}else{
+  			$fields = $allowFields;
+  		}
+  		$arg['fields']=$fields;
+  	   //查询条件 
+  		$conditions=[];
+  		//查询条件 
+        foreach ($params as $key => $where) {
+        	 if(in_array($key,$allowConditionFields)){
+        	 	$conditions[$key]=$where;
+        	 }
+        }
+
+        $arg['conditions']=$conditions;
+        //排序 
+        $arg['orderBy']=in_array($params['order'],$allowOrderFields)?$params['order']:'';//排序 
+  		$arg['params']=$params;
+	 	$res =$this->services->find($arg);
+	 	$this->echoJson($res['code'],$res['msg'],$res['data']);
+	 }
+
+	 //删
+	 function delAction(){
+	 	${{modelPk}} = $this->request->get("{{modelPk}}");
+	 	$params['{{modelPk}}']=${{modelPk}};
+	 	$params['command_user_id']=$this->getUserId();
+	 	$res = $this->commentServices->del($params);
+	 	$this->echoJson($res['code'],$res['msg']);
+	 }
+
+
+}

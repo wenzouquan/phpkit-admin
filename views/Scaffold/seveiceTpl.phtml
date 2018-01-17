@@ -7,21 +7,14 @@ class {{data.service}} extends {{data.extendsServices}} {
 	}
 
   function get($params=[]){
-  		$allowConditionFields=[{{columnsList}}];//允许做为查询条件的字段 
-  		$allowOrderFields=[{{columnsListForOrder}}];//允许做为排序的字段 
-  		$fields = is_array($params['fields'])?$params['fields']:[{{columnsList}}];//返回字段 
-  		$pagesize=isset($params['limit'])?intval($params['limit']):10;//返回条数
-  		$page= intval($params['page'])?$params['page']:1;
-  		$orderBy=$allowOrderFields[$params['order']]?$params['order']:'';//排序 
-  		$offset = ($page-1)*$pagesize;//起始数 
-  		$conditions=[];
-  		//查询条件 
-        foreach ($params as $key => $where) {
-        	 if(in_array($key,$allowConditionFields)){
-        	 	$conditions[$key]=$where;
-        	 }
-        }
-      	if(isset($params['limit'])){
+  		$this->model->setArgs($params);
+        $fields = $params['fields'];
+        $orderBy = $params['orderBy'];
+        $conditions = $params['conditions'];
+      	if(isset($params['pagesize'])){
+      		$pagesize=$params['pagesize'];
+      		$page=$params['page'];
+      		$offset = ($page-1)*$pagesize;//起始数 
       		$this->model->limit("$pagesize,$offset");
       	}
       	if(!empty($conditions)){
@@ -31,7 +24,7 @@ class {{data.service}} extends {{data.extendsServices}} {
      		$this->model->order($orderBy);
 	    }
   		$res = $this->model->select();
-  		if(isset($params['limit'])){
+  		if(isset($params['pagesize'])){
   			$recordsFiltered = $res['recordsFiltered'];
 			$recordsTotal = $res['recordsTotal'];
 			$data = $res["list"];
@@ -58,6 +51,7 @@ class {{data.service}} extends {{data.extendsServices}} {
 
   //保存和修改 
   function save($data){
+  		$this->model->setArgs($params);
   	    $Id = $data['{{modelPk}}'];
 		if (!empty($Id)) { //修改 
 			$model =  $this->model->load($Id);
@@ -68,7 +62,7 @@ class {{data.service}} extends {{data.extendsServices}} {
 		}
 
 		$res = [];//保存成功有数据 
-		if ($model->save($data,[{{columnsList}}]) == false) {
+		if ($model->save($data) == false) {
 				$msg = '保存失败';
 				$code = 1;
 				foreach ($model->getMessages() as $message) {
@@ -105,20 +99,18 @@ class {{data.service}} extends {{data.extendsServices}} {
 
  //查询一条记录 
   function find($params){
-  	 $allowConditionFields=[{{columnsList}}];//允许做为查询条件的字段 
-  	 $fields = is_array($params['fields'])?$params['fields']:[{{columnsList}}];//返回字段 
-  	 $conditions=[];
+  	$this->model->setArgs($params);
+    $fields = $params['fields'];
+    $orderBy = $params['orderBy'];
+    $conditions = $params['conditions'];
 	//查询条件 
-    if(is_array($params)){
-			//查询条件 
-	    foreach ($params as $key => $where) {
-	    	 if(in_array($key,$allowConditionFields)){
-	    	 	$conditions[$key]=$where;
-	    	 }
+    if(!empty($conditions) && $conditions['{{modelPk}}']){
+     	$res = $this->model->load($conditions['{{modelPk}}']);
+	}else{
+		if(!empty($orderBy) ){
+     		$this->model->order($orderBy);
 	    }
 	    $res = $this->model->where($conditions)->load();
-	}else{
-		 $res = $this->model->load($params);
 	}
     if($res=="nodata"){
     	return ['code'=>1,'msg'=>'未查到相关数据'];
