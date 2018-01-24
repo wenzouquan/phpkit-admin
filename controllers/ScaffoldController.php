@@ -96,7 +96,13 @@ class ScaffoldController extends AdminController {
  				'namespace'=>$data['namespace']."\\models",
  				'tableName'=>$table,
 			);
-			$scaffold->makeModel($config);
+			try {
+				$scaffold->makeModel($config);
+				echo $modelName ."make suc "."</br>";
+			} catch (\Exception $e) {
+				echo $modelName ." fail ".$e->getMessage()."</br>";
+			}
+			
 		}
 		
 	}
@@ -136,7 +142,6 @@ class ScaffoldController extends AdminController {
 		}
 		
 		$data['modelName'] = \phpkit\helper\convertUnderline($data['modelName']);
-		var_dump($data);
 		$this->view->data = (object)$data;
 		$this->view->columnsList="'".implode("','", $columnsList)."'";
 		$this->view->columnsListForOrder="'".implode(" desc ','", $columnsList)." desc'". ",'".implode("','", $columnsList)."'";
@@ -144,8 +149,9 @@ class ScaffoldController extends AdminController {
 		$seveiceContent = str_replace("</php>","?>",str_replace("<php>", "<?php ", $this->view->getRender('Scaffold',"seveiceTpl")));
 		try{
 			\phpkit\helper\saveFile($data->path."/".$data->service.".php",$seveiceContent,$data->overwrite);
+			echo $data->path."/".$data->service.".php"." suc </br>"; 
 		}catch(\Exception $e){
-			print $e->getMessage(); 
+			echo $e->getMessage()."</br>"; 
 		}
 		try{
 			//生成 model
@@ -159,8 +165,9 @@ class ScaffoldController extends AdminController {
 			);
 			$scaffold = new \phpkit\backend\Scaffold();
 			$scaffold->makeModel($config);
+			echo $data->extendsModel." suc </br>"; 
 		}catch(\Exception $e){
-			print $e->getMessage(); 
+			echo $e->getMessage()."</br>"; 
 		}
 		//var_dump($seveiceContent);
 		//exit();
