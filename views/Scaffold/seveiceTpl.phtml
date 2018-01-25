@@ -7,7 +7,7 @@ class {{data.service}} extends {{data.extendsServices}} {
 	}
 
   function get($params=[]){
-  		$this->model->setArgs($params);
+  		//$this->model->setArgs($params);
         $fields = $params['fields'];
         $orderBy = $params['orderBy'];
         $conditions = $params['conditions'];
@@ -37,7 +37,14 @@ class {{data.service}} extends {{data.extendsServices}} {
 		$lists = array();
 		foreach ($data as $key=>$list) {
 			 foreach ($fields as  $field) {
-			 	$lists[$key][$field]=$list->$field;
+			 	  if(strpos( $field,".")){
+						list($mainfield, $subfield) = explode(".", $field);
+						$dataKey = is_integer($key)?$subfield:$key;
+						$data[$dataKey]=$res->$mainfield->$subfield;
+				  }else{
+						$dataKey = is_integer($key)?$field:$key;
+						$data[$dataKey]=$res->$field;
+				}
 			 }
 		}
 		$data = array(
@@ -51,7 +58,7 @@ class {{data.service}} extends {{data.extendsServices}} {
 
   //保存和修改 
   function save($data){
-  		$this->model->setArgs($params);
+  		//$this->model->setArgs($params);
   	    $Id = $data['{{modelPk}}'];
 		if (!empty($Id)) { //修改 
 			$model =  $this->model->load($Id);
@@ -99,7 +106,7 @@ class {{data.service}} extends {{data.extendsServices}} {
 
  //查询一条记录 
   function find($params){
-  	$this->model->setArgs($params);
+  	//$this->model->setArgs($params);
     $fields = $params['fields'];
     $orderBy = $params['orderBy'];
     $conditions = $params['conditions'];
@@ -122,7 +129,14 @@ class {{data.service}} extends {{data.extendsServices}} {
     }
 
 	foreach ($fields as  $field) {
-	 	$data[$field]=$res->$field;
+	 	  if(strpos( $field,".")){
+						list($mainfield, $subfield) = explode(".", $field);
+						$dataKey = is_integer($key)?$subfield:$key;
+						$data[$dataKey]=$res->$mainfield->$subfield;
+				  }else{
+						$dataKey = is_integer($key)?$field:$key;
+						$data[$dataKey]=$res->$field;
+				}
 	 }
 	 return ['code'=>0,'msg'=>'成功','data'=>$data];
 
