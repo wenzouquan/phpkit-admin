@@ -236,16 +236,22 @@ class ScaffoldController extends AdminController {
 		}
 		eval("\$columnsList = " . $value_str . "; ");
 		$i = 1;
+		$columnsListArr=[];
 		foreach ($columnsList as $key => $value) {
-			$columnsList[$i] = $value;
+			$columnsListArr[$i] = $value;
 			$i++;
 		}
-		$data['columnsList'] = $columnsList;
+		$data['columnsList'] = $columnsListArr;
 		$data['modelPk'] = $post['modelPk'];
 		$config->save($name, $data);
-		$scaffold = new \phpkit\backend\Scaffold();
-		$config = array();
-		$scaffold->run($data);
+		try {
+			$scaffold = new \phpkit\backend\Scaffold();
+			$config = array();
+			$scaffold->run($data);
+		} catch (Exception $e) {
+			echo $e->getMessage()."</br>";
+		}
+		
 	}
 
 }
