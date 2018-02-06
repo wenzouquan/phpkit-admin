@@ -36,14 +36,14 @@ class {{data.service}} extends {{data.extendsServices}} {
 		//exit();
 		$lists = array();
 		foreach ($data as $key=>$list) {
-			 foreach ($fields as  $field) {
+			   foreach ($fields as  $field) {
 			 	  if(strpos( $field,".")){
 						list($mainfield, $subfield) = explode(".", $field);
 						$dataKey = is_integer($key)?$subfield:$key;
-						$data[$dataKey]=$res->$mainfield->$subfield;
+						$lists[$key][$dataKey]=$list->$mainfield->$subfield;
 				  }else{
 						$dataKey = is_integer($key)?$field:$key;
-						$data[$dataKey]=$res->$field;
+						$lists[$key][$dataKey]=$list->$field;
 				}
 			 }
 		}
@@ -111,7 +111,9 @@ class {{data.service}} extends {{data.extendsServices}} {
     $orderBy = $params['orderBy'];
     $conditions = $params['conditions'];
 	//查询条件 
-    if(!empty($conditions) && $conditions['{{modelPk}}']){
+    if(!is_array($params)){
+    	$res = $this->model->load($params);
+	}else if(is_array($conditions) && $conditions['{{modelPk}}']){
      	$res = $this->model->load($conditions['{{modelPk}}']);
 	}else{
 		if(!empty($orderBy) ){
