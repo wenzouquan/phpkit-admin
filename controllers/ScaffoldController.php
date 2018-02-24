@@ -54,11 +54,12 @@ class ScaffoldController extends AdminController {
 		
 		$this->view->data = (object)$data;
 		$this->view->columnsList="'".implode("','", $columnsList)."'";
-		$this->view->columnsListForOrder="'".implode(" desc ','", $columnsList)." desc'". ",'".implode("','", $columnsList)."'";
+		$this->view->columnsListForOrder="'".implode(" desc','", $columnsList)." desc'". ",'".implode("','", $columnsList)."'";
 		//echo($this->view->columnsListForOrder);
 		$content = str_replace("</php>","?>",str_replace("<php>", "<?php ", $this->view->getRender('Scaffold',"apiTpl")));
 		try{
 			\phpkit\helper\saveFile($data->path."/".$data->name.".php",$content,$data->overwrite);
+			echo $data->path."/".$data->name.".php"." suc";
 		}catch(\Exception $e){
 			print $e->getMessage(); 
 		}
