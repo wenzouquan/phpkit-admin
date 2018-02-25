@@ -130,7 +130,7 @@ class {{data.service}} extends {{data.extendsServices}} {
     	return ['code'=>2,'msg'=>$msg];
     }
 
-	foreach ($fields as  $field) {
+	foreach ($fields as  $key=>$field) {
 	 	  if(strpos( $field,".")){
 						list($mainfield, $subfield) = explode(".", $field);
 						$dataKey = is_integer($key)?$subfield:$key;
@@ -146,4 +146,3 @@ class {{data.service}} extends {{data.extendsServices}} {
 
 	 
 }
-
