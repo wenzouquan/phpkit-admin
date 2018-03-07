@@ -38,6 +38,9 @@ class {{data.name}} extends  {{data.extendsController}}{
 	        $arg['conditions']=$conditions;
 	        //排序 
 	        $arg['orderBy']=in_array($params['order'],$allowOrderFields)?$params['order']:'';//排序 
+	        if(intval($params['limit'])==0){
+	        	$params['limit']=20;
+	        }
 	        //返回条数
 	  		if(isset($params['limit'])){
 	  			$arg['pagesize'] = $params['limit'];
@@ -106,8 +109,8 @@ class {{data.name}} extends  {{data.extendsController}}{
 	 function delAction(){
 	 	${{modelPk}} = $this->request->get("{{modelPk}}");
 	 	$params['{{modelPk}}']=${{modelPk}};
-	 	$this->command_user_id = $this->getUserId();
-	 	$res = $this->services->del($params);
+	 	$this->services->command_user_id = $this->getUserId();
+	 	$res = $this->services->del(${{modelPk}});
 	 	$this->echoJson($res['code'],$res['msg']);
 	 }
 
