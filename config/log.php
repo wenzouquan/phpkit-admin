@@ -9,8 +9,8 @@
 
 return array(
     'endpoint' => 'cn-hangzhou.log.aliyuncs.com',
-    'accessKeyId' => 'ZL3Cr4KByc54jA9Y',
-    'accessKey' => 'mZZdiOzRT1TjGl0K6BzNCKaoCcs3zO',
+    'accessKeyId' => '',
+    'accessKey' => '',
     'project' => 'phpkit-demo',
     'logstore' => 'demo',
     'token' => "",
